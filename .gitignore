@@ -2,3 +2,5 @@ node_modules/
 dist/
 .codecapsule/
 coverage/
+.DS_Store
+Archive.zip
