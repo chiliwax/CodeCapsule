@@ -1,5 +1,6 @@
 #!/usr/bin/env node
 
+import { realpathSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 import { resolve } from 'node:path';
 import { Command, CommanderError } from 'commander';
@@ -49,8 +50,8 @@ export function main(argv = process.argv): void {
   }
 }
 
-const cliPath = fileURLToPath(import.meta.url);
-const entryPath = process.argv[1] ? resolve(process.argv[1]) : '';
+const cliPath = realpathSync(fileURLToPath(import.meta.url));
+const entryPath = process.argv[1] ? realpathSync(resolve(process.argv[1])) : '';
 
 if (cliPath === entryPath) {
   main();

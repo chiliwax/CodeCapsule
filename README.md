@@ -11,9 +11,34 @@ Safe isolated Docker launcher for OpenCode.
 
 ## Install
 
+### Development setup
+
 ```bash
 npm install
 npm run build
+```
+
+### Install the CLI globally (from source)
+
+After building, install the package globally so the `capsule` and `codecapsule` commands are available on your PATH:
+
+```bash
+npm install -g . --no-audit --no-fund
+```
+
+Then use it anywhere:
+
+```bash
+capsule --help
+capsule init --tool opencode --yes
+```
+
+Both `capsule` and `codecapsule` are valid commands.
+
+### Uninstall
+
+```bash
+npm uninstall -g codecapsule
 ```
 
 ## Usage
