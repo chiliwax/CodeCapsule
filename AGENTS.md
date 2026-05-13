@@ -12,12 +12,20 @@ npm test             # vitest run (all tests)
 npm test -- --run    # Same, explicit flag
 npm run test:watch   # vitest watch mode
 
-# Run the CLI locally
+# Run the CLI locally (direct execution)
 node dist/cli.js init --tool opencode --yes
 node dist/cli.js doctor
 node dist/cli.js launch --dry-run
 node dist/cli.js clean --yes
+
+# Run via installed binary
+capsule init --tool opencode --yes
+capsule doctor
+capsule launch --dry-run
+capsule clean --yes
 ```
+
+> `codecapsule` remains available as a backwards-compatible alias.
 
 ## Architecture
 

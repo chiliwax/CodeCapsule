@@ -20,23 +20,26 @@ npm run build
 
 ```bash
 # Initialize OpenCode Docker setup
-npx codecapsule init --tool opencode --yes
+capsule init --tool opencode --yes
 
 # Validate setup
-npx codecapsule doctor
+capsule doctor
 
 # Preview launch command
-npx codecapsule launch --dry-run
+capsule launch --dry-run
 
 # Launch OpenCode in Docker
-npx codecapsule launch --build
+capsule launch --build
 
 # Clean up Docker resources (cache and image only; state is preserved)
-npx codecapsule clean --yes
+capsule clean --yes
 
 # Clean up everything including state (sessions, auth, etc.)
-npx codecapsule clean --yes --include-state
+capsule clean --yes --include-state
 ```
+
+> `npx codecapsule <command>` still works because the package name remains `codecapsule`.
+> `codecapsule` also remains available as a backwards-compatible alias.
 
 ## Generated Files
 
