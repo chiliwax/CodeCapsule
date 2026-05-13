@@ -1,3 +1,4 @@
+import { homedir } from 'node:os';
 import { describe, expect, test } from 'vitest';
 import { opencodeAdapter } from '../../src/adapters/index.js';
 import {
@@ -42,7 +43,7 @@ describe('processImportOptions', () => {
       auth: true
     });
     expect(result.localConfig.hostSourcePaths).toEqual({
-      auth: '~/.local/share/opencode/auth.json'
+      auth: `${homedir()}/.local/share/opencode/auth.json`
     });
   });
 
@@ -58,8 +59,8 @@ describe('processImportOptions', () => {
       skills: true
     });
     expect(result.localConfig.hostSourcePaths).toEqual({
-      settings: '~/.config/opencode/opencode.json',
-      skills: '~/.config/opencode/skills/'
+      settings: `${homedir()}/.config/opencode/opencode.json`,
+      skills: `${homedir()}/.config/opencode/skills/`
     });
   });
 });
@@ -67,7 +68,7 @@ describe('processImportOptions', () => {
 describe('resolveHostPath', () => {
   test('returns adapter metadata path for an import category', () => {
     expect(resolveHostPath('settings', opencodeAdapter)).toBe(
-      '~/.config/opencode/opencode.json'
+      `${homedir()}/.config/opencode/opencode.json`
     );
   });
 });

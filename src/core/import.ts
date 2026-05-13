@@ -1,3 +1,4 @@
+import { homedir } from 'node:os';
 import type {
   AdapterMetadata,
   HostSourcePaths,
@@ -67,7 +68,11 @@ export function resolveHostPath(
   category: ImportCategory,
   adapter: AdapterMetadata
 ): string | undefined {
-  return adapter.hostConfigPaths[category];
+  const rawPath = adapter.hostConfigPaths[category];
+  if (rawPath && rawPath.startsWith('~/')) {
+    return rawPath.replace(/^~\//, homedir() + '/');
+  }
+  return rawPath;
 }
 
 export function generateGitignore(): string {
