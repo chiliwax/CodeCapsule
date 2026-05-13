@@ -1,4 +1,4 @@
-import { mkdtempSync, readFileSync, rmSync, writeFileSync } from 'node:fs';
+import { existsSync, mkdtempSync, readFileSync, rmSync, writeFileSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import { afterEach, describe, expect, test } from 'vitest';
@@ -44,10 +44,18 @@ describe('runInit', () => {
     });
     expect(profile.security.allowPrivileged).toBe(false);
     expect(profile.security.allowDockerSocket).toBe(false);
+    expect(profile.statePath).toBe('.codecapsule/state/opencode');
+    expect(profile.cachePath).toBe('.codecapsule/cache/opencode');
+    expect(existsSync(join(cwd, '.codecapsule', 'state', 'opencode'))).toBe(true);
+    expect(existsSync(join(cwd, '.codecapsule', 'cache', 'opencode'))).toBe(true);
     expect(local).toEqual({ hostSourcePaths: {} });
     expect(dockerfile).toContain('FROM node:22-bookworm-slim');
     expect(gitignore).toContain('local.json\n');
     expect(gitignore).toContain('imports/\n');
+    expect(gitignore).toContain('state/\n');
+    expect(gitignore).toContain('cache/\n');
+    expect(gitignore).toContain('tmp/\n');
+    expect(gitignore).toContain('logs/\n');
   });
 
   test('refuses to overwrite existing files without force', () => {

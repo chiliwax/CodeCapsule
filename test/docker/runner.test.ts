@@ -1,7 +1,7 @@
 import { describe, expect, test } from 'vitest';
 import { importCategories } from '../../src/core/schemas.js';
 import type { ImportSelections, LocalConfig, Profile } from '../../src/core/types.js';
-import { buildDockerCommand, formatDockerCommand } from '../../src/docker/runner.js';
+import { buildDockerCommand, formatDockerCommand, getProjectImageTag } from '../../src/docker/runner.js';
 
 const disabledImports = Object.fromEntries(
   importCategories.map((category) => [category, false])
@@ -14,8 +14,8 @@ function createProfile(overrides: Partial<Profile> = {}): Profile {
     imageName: 'codecapsule/opencode:latest',
     containerWorkdir: '/workspace',
     opencodeVersion: 'latest',
-    stateVolume: 'codecapsule-opencode-state',
-    cacheVolume: 'codecapsule-opencode-cache',
+    statePath: '.codecapsule/state/opencode',
+    cachePath: '.codecapsule/cache/opencode',
     network: 'bridge',
     imports: disabledImports,
     security: {
@@ -32,6 +32,7 @@ function createProfile(overrides: Partial<Profile> = {}): Profile {
 describe('buildDockerCommand', () => {
   test('includes dry-run essentials for a safe interactive workspace launch', () => {
     const command = buildDockerCommand(createProfile(), { hostSourcePaths: {} }, { dryRun: true });
+    const imageTag = getProjectImageTag(createProfile(), process.cwd());
 
     expect(command).toContain('run');
     expect(command).toContain('--rm');
@@ -47,8 +48,17 @@ describe('buildDockerCommand', () => {
     expect(command).toContain('XDG_CONFIG_HOME=/home/codecapsule/.config');
     expect(command).toContain('XDG_DATA_HOME=/home/codecapsule/.local/share');
     expect(command).toContain('XDG_CACHE_HOME=/home/codecapsule/.cache');
-    expect(command).toContain('codecapsule/opencode:latest');
+    expect(command).toContain(`${process.cwd()}/.codecapsule/state/opencode:/home/codecapsule/.local/share/opencode`);
+    expect(command).toContain(`${process.cwd()}/.codecapsule/cache/opencode:/home/codecapsule/.cache/opencode`);
+    expect(command).toContain(imageTag);
+    expect(command).not.toContain('codecapsule/opencode:latest');
     expect(command).toContain('opencode');
+  });
+
+  test('scopes image tags to the project basename and host user ids', () => {
+    const imageTag = getProjectImageTag(createProfile(), '/tmp/Safe Code!');
+
+    expect(imageTag).toBe(`codecapsule/opencode:safe-code-uid${process.getuid?.() ?? 1000}-gid${process.getgid?.() ?? 1000}`);
   });
 
   test('omits privileged mode, Docker socket, broad home mount, SSH agent, and broad env passthrough', () => {
@@ -79,7 +89,8 @@ describe('buildDockerCommand', () => {
 
   test('uses explicit container command args instead of the adapter default command', () => {
     const command = buildDockerCommand(createProfile(), { hostSourcePaths: {} }, { dryRun: true, command: ['--help'] });
+    const imageTag = getProjectImageTag(createProfile(), process.cwd());
 
-    expect(command.slice(-3)).toEqual(['codecapsule/opencode:latest', 'opencode', '--help']);
+    expect(command.slice(-3)).toEqual([imageTag, 'opencode', '--help']);
   });
 });

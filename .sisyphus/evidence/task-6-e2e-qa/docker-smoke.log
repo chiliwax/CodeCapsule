@@ -1,0 +1,306 @@
+#0 building with "orbstack" instance using docker driver
+
+#1 [internal] load build definition from Dockerfile.opencode
+#1 transferring dockerfile: 1.76kB done
+#1 DONE 0.1s
+
+#2 [internal] load metadata for docker.io/library/node:22-bookworm-slim
+#2 DONE 1.0s
+
+#3 [internal] load .dockerignore
+#3 transferring context: 2B done
+#3 DONE 0.0s
+
+#4 [1/5] FROM docker.io/library/node:22-bookworm-slim@sha256:9f6d5975c7dca860947d3915877f85607946403fc55349f39b4bc3688448bb6e
+#4 CACHED
+
+#5 [2/5] RUN apt-get update && apt-get install -y --no-install-recommends     ca-certificates     curl     git     bash     tini     && rm -rf /var/lib/apt/lists/*
+#5 0.313 Get:1 http://deb.debian.org/debian bookworm InRelease [151 kB]
+#5 0.346 Get:2 http://deb.debian.org/debian bookworm-updates InRelease [55.4 kB]
+#5 0.366 Get:3 http://deb.debian.org/debian-security bookworm-security InRelease [48.0 kB]
+#5 0.406 Get:4 http://deb.debian.org/debian bookworm/main arm64 Packages [8691 kB]
+#5 0.802 Get:5 http://deb.debian.org/debian bookworm-updates/main arm64 Packages [6936 B]
+#5 0.802 Get:6 http://deb.debian.org/debian-security bookworm-security/main arm64 Packages [299 kB]
+#5 1.342 Fetched 9252 kB in 1s (8124 kB/s)
+#5 1.342 Reading package lists...
+#5 1.575 Reading package lists...
+#5 1.796 Building dependency tree...
+#5 1.861 Reading state information...
+#5 1.933 bash is already the newest version (5.2.15-2+b10).
+#5 1.933 bash set to manually installed.
+#5 1.933 The following additional packages will be installed:
+#5 1.933   git-man libbrotli1 libcurl3-gnutls libcurl4 liberror-perl libexpat1
+#5 1.933   libgdbm-compat4 libgdbm6 libgssapi-krb5-2 libk5crypto3 libkeyutils1
+#5 1.933   libkrb5-3 libkrb5support0 libldap-2.5-0 libnghttp2-14 libperl5.36 libpsl5
+#5 1.933   librtmp1 libsasl2-2 libsasl2-modules-db libssh2-1 libssl3 openssl perl
+#5 1.933   perl-modules-5.36
+#5 1.933 Suggested packages:
+#5 1.933   gettext-base git-daemon-run | git-daemon-sysvinit git-doc git-email git-gui
+#5 1.933   gitk gitweb git-cvs git-mediawiki git-svn gdbm-l10n krb5-doc krb5-user
+#5 1.933   sensible-utils perl-doc libterm-readline-gnu-perl
+#5 1.933   | libterm-readline-perl-perl make libtap-harness-archive-perl
+#5 1.933 Recommended packages:
+#5 1.933   patch less ssh-client krb5-locales libldap-common publicsuffix
+#5 1.933   libsasl2-modules netbase
+#5 2.024 The following NEW packages will be installed:
+#5 2.024   ca-certificates curl git git-man libbrotli1 libcurl3-gnutls libcurl4
+#5 2.024   liberror-perl libexpat1 libgdbm-compat4 libgdbm6 libgssapi-krb5-2
+#5 2.024   libk5crypto3 libkeyutils1 libkrb5-3 libkrb5support0 libldap-2.5-0
+#5 2.024   libnghttp2-14 libperl5.36 libpsl5 librtmp1 libsasl2-2 libsasl2-modules-db
+#5 2.024   libssh2-1 libssl3 openssl perl perl-modules-5.36 tini
+#5 2.054 0 upgraded, 29 newly installed, 0 to remove and 0 not upgraded.
+#5 2.054 Need to get 22.6 MB of archives.
+#5 2.054 After this operation, 116 MB of additional disk space will be used.
+#5 2.054 Get:1 http://deb.debian.org/debian bookworm/main arm64 perl-modules-5.36 all 5.36.0-7+deb12u3 [2815 kB]
+#5 2.211 Get:2 http://deb.debian.org/debian bookworm/main arm64 libgdbm6 arm64 1.23-3 [70.9 kB]
+#5 2.218 Get:3 http://deb.debian.org/debian bookworm/main arm64 libgdbm-compat4 arm64 1.23-3 [48.0 kB]
+#5 2.218 Get:4 http://deb.debian.org/debian bookworm/main arm64 libperl5.36 arm64 5.36.0-7+deb12u3 [4009 kB]
+#5 2.424 Get:5 http://deb.debian.org/debian bookworm/main arm64 perl arm64 5.36.0-7+deb12u3 [239 kB]
+#5 2.441 Get:6 http://deb.debian.org/debian-security bookworm-security/main arm64 libssl3 arm64 3.0.19-1~deb12u2 [1820 kB]
+#5 2.535 Get:7 http://deb.debian.org/debian-security bookworm-security/main arm64 openssl arm64 3.0.19-1~deb12u2 [1402 kB]
+#5 2.594 Get:8 http://deb.debian.org/debian bookworm/main arm64 ca-certificates all 20230311+deb12u1 [155 kB]
+#5 2.602 Get:9 http://deb.debian.org/debian bookworm/main arm64 libbrotli1 arm64 1.0.9-2+b6 [269 kB]
+#5 2.612 Get:10 http://deb.debian.org/debian bookworm/main arm64 libkrb5support0 arm64 1.20.1-2+deb12u4 [32.5 kB]
+#5 2.617 Get:11 http://deb.debian.org/debian bookworm/main arm64 libk5crypto3 arm64 1.20.1-2+deb12u4 [80.2 kB]
+#5 2.618 Get:12 http://deb.debian.org/debian bookworm/main arm64 libkeyutils1 arm64 1.6.3-2 [8844 B]
+#5 2.619 Get:13 http://deb.debian.org/debian bookworm/main arm64 libkrb5-3 arm64 1.20.1-2+deb12u4 [314 kB]
+#5 2.626 Get:14 http://deb.debian.org/debian bookworm/main arm64 libgssapi-krb5-2 arm64 1.20.1-2+deb12u4 [124 kB]
+#5 2.646 Get:15 http://deb.debian.org/debian bookworm/main arm64 libsasl2-modules-db arm64 2.1.28+dfsg-10 [20.8 kB]
+#5 2.647 Get:16 http://deb.debian.org/debian bookworm/main arm64 libsasl2-2 arm64 2.1.28+dfsg-10 [58.0 kB]
+#5 2.660 Get:17 http://deb.debian.org/debian bookworm/main arm64 libldap-2.5-0 arm64 2.5.13+dfsg-5 [171 kB]
+#5 2.670 Get:18 http://deb.debian.org/debian bookworm/main arm64 libnghttp2-14 arm64 1.52.0-1+deb12u2 [68.6 kB]
+#5 2.671 Get:19 http://deb.debian.org/debian bookworm/main arm64 libpsl5 arm64 0.21.2-1 [58.6 kB]
+#5 2.676 Get:20 http://deb.debian.org/debian bookworm/main arm64 librtmp1 arm64 2.4+20151223.gitfa8646d.1-2+b2 [59.4 kB]
+#5 2.677 Get:21 http://deb.debian.org/debian bookworm/main arm64 libssh2-1 arm64 1.10.0-3+b1 [172 kB]
+#5 2.702 Get:22 http://deb.debian.org/debian bookworm/main arm64 libcurl4 arm64 7.88.1-10+deb12u14 [367 kB]
+#5 2.706 Get:23 http://deb.debian.org/debian bookworm/main arm64 curl arm64 7.88.1-10+deb12u14 [309 kB]
+#5 2.710 Get:24 http://deb.debian.org/debian bookworm/main arm64 libcurl3-gnutls arm64 7.88.1-10+deb12u14 [362 kB]
+#5 2.727 Get:25 http://deb.debian.org/debian bookworm/main arm64 libexpat1 arm64 2.5.0-1+deb12u2 [86.3 kB]
+#5 2.731 Get:26 http://deb.debian.org/debian bookworm/main arm64 liberror-perl all 0.17029-2 [29.0 kB]
+#5 2.741 Get:27 http://deb.debian.org/debian bookworm/main arm64 git-man all 1:2.39.5-0+deb12u3 [2053 kB]
+#5 2.841 Get:28 http://deb.debian.org/debian bookworm/main arm64 git arm64 1:2.39.5-0+deb12u3 [7153 kB]
+#5 3.179 Get:29 http://deb.debian.org/debian bookworm/main arm64 tini arm64 0.19.0-1+b3 [224 kB]
+#5 3.274 debconf: delaying package configuration, since apt-utils is not installed
+#5 3.285 Fetched 22.6 MB in 1s (19.4 MB/s)
+#5 3.335 Selecting previously unselected package perl-modules-5.36.
+#5 3.335 (Reading database ... (Reading database ... 5%(Reading database ... 10%(Reading database ... 15%(Reading database ... 20%(Reading database ... 25%(Reading database ... 30%(Reading database ... 35%(Reading database ... 40%(Reading database ... 45%(Reading database ... 50%(Reading database ... 55%(Reading database ... 60%(Reading database ... 65%(Reading database ... 70%(Reading database ... 75%(Reading database ... 80%(Reading database ... 85%(Reading database ... 90%(Reading database ... 95%(Reading database ... 100%(Reading database ... 6090 files and directories currently installed.)
+#5 3.351 Preparing to unpack .../00-perl-modules-5.36_5.36.0-7+deb12u3_all.deb ...
+#5 3.370 Unpacking perl-modules-5.36 (5.36.0-7+deb12u3) ...
+#5 3.566 Selecting previously unselected package libgdbm6:arm64.
+#5 3.567 Preparing to unpack .../01-libgdbm6_1.23-3_arm64.deb ...
+#5 3.572 Unpacking libgdbm6:arm64 (1.23-3) ...
+#5 3.588 Selecting previously unselected package libgdbm-compat4:arm64.
+#5 3.589 Preparing to unpack .../02-libgdbm-compat4_1.23-3_arm64.deb ...
+#5 3.590 Unpacking libgdbm-compat4:arm64 (1.23-3) ...
+#5 3.602 Selecting previously unselected package libperl5.36:arm64.
+#5 3.603 Preparing to unpack .../03-libperl5.36_5.36.0-7+deb12u3_arm64.deb ...
+#5 3.604 Unpacking libperl5.36:arm64 (5.36.0-7+deb12u3) ...
+#5 3.808 Selecting previously unselected package perl.
+#5 3.809 Preparing to unpack .../04-perl_5.36.0-7+deb12u3_arm64.deb ...
+#5 3.821 Unpacking perl (5.36.0-7+deb12u3) ...
+#5 3.853 Selecting previously unselected package libssl3:arm64.
+#5 3.853 Preparing to unpack .../05-libssl3_3.0.19-1~deb12u2_arm64.deb ...
+#5 3.855 Unpacking libssl3:arm64 (3.0.19-1~deb12u2) ...
+#5 3.936 Selecting previously unselected package openssl.
+#5 3.936 Preparing to unpack .../06-openssl_3.0.19-1~deb12u2_arm64.deb ...
+#5 3.939 Unpacking openssl (3.0.19-1~deb12u2) ...
+#5 4.013 Selecting previously unselected package ca-certificates.
+#5 4.013 Preparing to unpack .../07-ca-certificates_20230311+deb12u1_all.deb ...
+#5 4.017 Unpacking ca-certificates (20230311+deb12u1) ...
+#5 4.061 Selecting previously unselected package libbrotli1:arm64.
+#5 4.062 Preparing to unpack .../08-libbrotli1_1.0.9-2+b6_arm64.deb ...
+#5 4.064 Unpacking libbrotli1:arm64 (1.0.9-2+b6) ...
+#5 4.091 Selecting previously unselected package libkrb5support0:arm64.
+#5 4.092 Preparing to unpack .../09-libkrb5support0_1.20.1-2+deb12u4_arm64.deb ...
+#5 4.095 Unpacking libkrb5support0:arm64 (1.20.1-2+deb12u4) ...
+#5 4.116 Selecting previously unselected package libk5crypto3:arm64.
+#5 4.116 Preparing to unpack .../10-libk5crypto3_1.20.1-2+deb12u4_arm64.deb ...
+#5 4.120 Unpacking libk5crypto3:arm64 (1.20.1-2+deb12u4) ...
+#5 4.147 Selecting previously unselected package libkeyutils1:arm64.
+#5 4.148 Preparing to unpack .../11-libkeyutils1_1.6.3-2_arm64.deb ...
+#5 4.149 Unpacking libkeyutils1:arm64 (1.6.3-2) ...
+#5 4.166 Selecting previously unselected package libkrb5-3:arm64.
+#5 4.167 Preparing to unpack .../12-libkrb5-3_1.20.1-2+deb12u4_arm64.deb ...
+#5 4.168 Unpacking libkrb5-3:arm64 (1.20.1-2+deb12u4) ...
+#5 4.196 Selecting previously unselected package libgssapi-krb5-2:arm64.
+#5 4.196 Preparing to unpack .../13-libgssapi-krb5-2_1.20.1-2+deb12u4_arm64.deb ...
+#5 4.201 Unpacking libgssapi-krb5-2:arm64 (1.20.1-2+deb12u4) ...
+#5 4.217 Selecting previously unselected package libsasl2-modules-db:arm64.
+#5 4.217 Preparing to unpack .../14-libsasl2-modules-db_2.1.28+dfsg-10_arm64.deb ...
+#5 4.218 Unpacking libsasl2-modules-db:arm64 (2.1.28+dfsg-10) ...
+#5 4.233 Selecting previously unselected package libsasl2-2:arm64.
+#5 4.234 Preparing to unpack .../15-libsasl2-2_2.1.28+dfsg-10_arm64.deb ...
+#5 4.239 Unpacking libsasl2-2:arm64 (2.1.28+dfsg-10) ...
+#5 4.256 Selecting previously unselected package libldap-2.5-0:arm64.
+#5 4.257 Preparing to unpack .../16-libldap-2.5-0_2.5.13+dfsg-5_arm64.deb ...
+#5 4.258 Unpacking libldap-2.5-0:arm64 (2.5.13+dfsg-5) ...
+#5 4.283 Selecting previously unselected package libnghttp2-14:arm64.
+#5 4.284 Preparing to unpack .../17-libnghttp2-14_1.52.0-1+deb12u2_arm64.deb ...
+#5 4.286 Unpacking libnghttp2-14:arm64 (1.52.0-1+deb12u2) ...
+#5 4.309 Selecting previously unselected package libpsl5:arm64.
+#5 4.310 Preparing to unpack .../18-libpsl5_0.21.2-1_arm64.deb ...
+#5 4.312 Unpacking libpsl5:arm64 (0.21.2-1) ...
+#5 4.326 Selecting previously unselected package librtmp1:arm64.
+#5 4.326 Preparing to unpack .../19-librtmp1_2.4+20151223.gitfa8646d.1-2+b2_arm64.deb ...
+#5 4.328 Unpacking librtmp1:arm64 (2.4+20151223.gitfa8646d.1-2+b2) ...
+#5 4.369 Selecting previously unselected package libssh2-1:arm64.
+#5 4.370 Preparing to unpack .../20-libssh2-1_1.10.0-3+b1_arm64.deb ...
+#5 4.371 Unpacking libssh2-1:arm64 (1.10.0-3+b1) ...
+#5 4.390 Selecting previously unselected package libcurl4:arm64.
+#5 4.391 Preparing to unpack .../21-libcurl4_7.88.1-10+deb12u14_arm64.deb ...
+#5 4.392 Unpacking libcurl4:arm64 (7.88.1-10+deb12u14) ...
+#5 4.420 Selecting previously unselected package curl.
+#5 4.421 Preparing to unpack .../22-curl_7.88.1-10+deb12u14_arm64.deb ...
+#5 4.422 Unpacking curl (7.88.1-10+deb12u14) ...
+#5 4.448 Selecting previously unselected package libcurl3-gnutls:arm64.
+#5 4.448 Preparing to unpack .../23-libcurl3-gnutls_7.88.1-10+deb12u14_arm64.deb ...
+#5 4.449 Unpacking libcurl3-gnutls:arm64 (7.88.1-10+deb12u14) ...
+#5 4.478 Selecting previously unselected package libexpat1:arm64.
+#5 4.478 Preparing to unpack .../24-libexpat1_2.5.0-1+deb12u2_arm64.deb ...
+#5 4.480 Unpacking libexpat1:arm64 (2.5.0-1+deb12u2) ...
+#5 4.494 Selecting previously unselected package liberror-perl.
+#5 4.494 Preparing to unpack .../25-liberror-perl_0.17029-2_all.deb ...
+#5 4.496 Unpacking liberror-perl (0.17029-2) ...
+#5 4.513 Selecting previously unselected package git-man.
+#5 4.513 Preparing to unpack .../26-git-man_1%3a2.39.5-0+deb12u3_all.deb ...
+#5 4.514 Unpacking git-man (1:2.39.5-0+deb12u3) ...
+#5 4.571 Selecting previously unselected package git.
+#5 4.571 Preparing to unpack .../27-git_1%3a2.39.5-0+deb12u3_arm64.deb ...
+#5 4.574 Unpacking git (1:2.39.5-0+deb12u3) ...
+#5 4.768 Selecting previously unselected package tini.
+#5 4.769 Preparing to unpack .../28-tini_0.19.0-1+b3_arm64.deb ...
+#5 4.770 Unpacking tini (0.19.0-1+b3) ...
+#5 4.793 Setting up libexpat1:arm64 (2.5.0-1+deb12u2) ...
+#5 4.797 Setting up libkeyutils1:arm64 (1.6.3-2) ...
+#5 4.800 Setting up libpsl5:arm64 (0.21.2-1) ...
+#5 4.804 Setting up libbrotli1:arm64 (1.0.9-2+b6) ...
+#5 4.807 Setting up libssl3:arm64 (3.0.19-1~deb12u2) ...
+#5 4.815 Setting up libnghttp2-14:arm64 (1.52.0-1+deb12u2) ...
+#5 4.821 Setting up libkrb5support0:arm64 (1.20.1-2+deb12u4) ...
+#5 4.827 Setting up libsasl2-modules-db:arm64 (2.1.28+dfsg-10) ...
+#5 4.837 Setting up perl-modules-5.36 (5.36.0-7+deb12u3) ...
+#5 4.844 Setting up librtmp1:arm64 (2.4+20151223.gitfa8646d.1-2+b2) ...
+#5 4.849 Setting up tini (0.19.0-1+b3) ...
+#5 4.854 Setting up libk5crypto3:arm64 (1.20.1-2+deb12u4) ...
+#5 4.858 Setting up libsasl2-2:arm64 (2.1.28+dfsg-10) ...
+#5 4.862 Setting up git-man (1:2.39.5-0+deb12u3) ...
+#5 4.866 Setting up libssh2-1:arm64 (1.10.0-3+b1) ...
+#5 4.870 Setting up libkrb5-3:arm64 (1.20.1-2+deb12u4) ...
+#5 4.874 Setting up openssl (3.0.19-1~deb12u2) ...
+#5 4.894 Setting up libgdbm6:arm64 (1.23-3) ...
+#5 4.907 Setting up libldap-2.5-0:arm64 (2.5.13+dfsg-5) ...
+#5 4.918 Setting up ca-certificates (20230311+deb12u1) ...
+#5 4.969 debconf: unable to initialize frontend: Dialog
+#5 4.969 debconf: (TERM is not set, so the dialog frontend is not usable.)
+#5 4.969 debconf: falling back to frontend: Readline
+#5 4.973 debconf: unable to initialize frontend: Readline
+#5 4.973 debconf: (This frontend requires a controlling tty.)
+#5 4.973 debconf: falling back to frontend: Teletype
+#5 5.108 Updating certificates in /etc/ssl/certs...
+#5 5.265 142 added, 0 removed; done.
+#5 5.289 Setting up libgssapi-krb5-2:arm64 (1.20.1-2+deb12u4) ...
+#5 5.298 Setting up libgdbm-compat4:arm64 (1.23-3) ...
+#5 5.309 Setting up libcurl4:arm64 (7.88.1-10+deb12u14) ...
+#5 5.316 Setting up curl (7.88.1-10+deb12u14) ...
+#5 5.322 Setting up libperl5.36:arm64 (5.36.0-7+deb12u3) ...
+#5 5.327 Setting up libcurl3-gnutls:arm64 (7.88.1-10+deb12u14) ...
+#5 5.331 Setting up perl (5.36.0-7+deb12u3) ...
+#5 5.344 Setting up liberror-perl (0.17029-2) ...
+#5 5.353 Setting up git (1:2.39.5-0+deb12u3) ...
+#5 5.359 Processing triggers for libc-bin (2.36-9+deb12u13) ...
+#5 5.506 Processing triggers for ca-certificates (20230311+deb12u1) ...
+#5 5.510 Updating certificates in /etc/ssl/certs...
+#5 5.634 0 added, 0 removed; done.
+#5 5.634 Running hooks in /etc/ca-certificates/update.d...
+#5 5.635 done.
+#5 DONE 5.9s
+
+#6 [3/5] RUN set -eux;     GROUP_ID=20;     USER_ID=501;     if getent group "20" >/dev/null 2>&1; then         existing_group=$(getent group "20" | cut -d: -f1);         groupadd -n codecapsule -g "20" 2>/dev/null || true;         groupmod -n codecapsule "$existing_group" 2>/dev/null || true;     else         groupadd -g "20" codecapsule;     fi;     if id -u "501" >/dev/null 2>&1; then         existing_user=$(id -un "501");         usermod -l codecapsule "$existing_user" 2>/dev/null || true;         usermod -d /home/codecapsule -m codecapsule 2>/dev/null || true;     else         useradd -u "501" -g codecapsule -m -d /home/codecapsule -s /bin/bash codecapsule;     fi;     mkdir -p /home/codecapsule/.config/opencode         /home/codecapsule/.local/share/opencode         /home/codecapsule/.cache/opencode;     chown -R codecapsule:codecapsule /home/codecapsule
+#6 0.112 + GROUP_ID=20
+#6 0.112 + USER_ID=501
+#6 0.112 + getent group 20
+#6 0.114 + getent+ cut -d: -f1
+#6 0.114  group 20
+#6 0.116 + existing_group=dialout
+#6 0.116 + groupadd -n codecapsule -g 20
+#6 0.119 + true
+#6 0.119 + groupmod -n codecapsule dialout
+#6 0.126 + id -u 501
+#6 0.130 + useradd -u 501 -g codecapsule -m -d /home/codecapsule -s /bin/bash codecapsule
+#6 0.136 useradd warning: codecapsule's uid 501 outside of the UID_MIN 1000 and UID_MAX 60000 range.
+#6 0.141 + mkdir -p /home/codecapsule/.config/opencode /home/codecapsule/.local/share/opencode /home/codecapsule/.cache/opencode
+#6 0.141 + chown -R codecapsule:codecapsule /home/codecapsule
+#6 DONE 0.2s
+
+#7 [4/5] RUN npm install -g opencode-ai@latest
+#7 8.900 
+#7 8.900 added 3 packages in 9s
+#7 8.900 npm notice
+#7 8.900 npm notice New major version of npm available! 10.9.7 -> 11.14.1
+#7 8.900 npm notice Changelog: https://github.com/npm/cli/releases/tag/v11.14.1
+#7 8.900 npm notice To update run: npm install -g npm@11.14.1
+#7 8.900 npm notice
+#7 DONE 9.3s
+
+#8 [5/5] WORKDIR /workspace
+#8 DONE 0.0s
+
+#9 exporting to image
+#9 exporting layers
+#9 exporting layers 0.7s done
+#9 writing image sha256:6c6c9f9e44f7bfb737ce6305d7e88ded820a6bb90b789cd0b01b961b4eec328a done
+#9 naming to docker.io/codecapsule/opencode:codecapsule-dry-run-ftbvoy-uid501-gid20 done
+#9 DONE 0.7s
+Performing one time database migration, may take a few minutes...
+[?25l[?25hDatabase migration complete.
+                                 [0m▄[0m     
+[90m█[0m[90m▀[0m[90m▀[0m[90m█[0m [90m█[0m[90m▀[0m[90m▀[0m[90m█[0m [90m█[0m[90m▀[0m[90m▀[0m[90m█[0m [90m█[0m[90m▀[0m[90m▀[0m[90m▄[0m [0m█[0m[0m▀[0m[0m▀[0m[0m▀[0m [0m█[0m[0m▀[0m[0m▀[0m[0m█[0m [0m█[0m[0m▀[0m[0m▀[0m[0m█[0m [0m█[0m[0m▀[0m[0m▀[0m[0m█[0m
+[90m█[0m[48;5;235m [0m[48;5;235m [0m[90m█[0m [90m█[0m[48;5;235m [0m[48;5;235m [0m[90m█[0m [90m█[0m[90m[48;5;235m▀[0m[90m[48;5;235m▀[0m[90m[48;5;235m▀[0m [90m█[0m[48;5;235m [0m[48;5;235m [0m[90m█[0m [0m█[0m[48;5;238m [0m[48;5;238m [0m[48;5;238m [0m [0m█[0m[48;5;238m [0m[48;5;238m [0m[0m█[0m [0m█[0m[48;5;238m [0m[48;5;238m [0m[0m█[0m [0m█[0m[0m[48;5;238m▀[0m[0m[48;5;238m▀[0m[0m[48;5;238m▀[0m
+[90m▀[0m[90m▀[0m[90m▀[0m[90m▀[0m [90m█[0m[90m▀[0m[90m▀[0m[90m▀[0m [90m▀[0m[90m▀[0m[90m▀[0m[90m▀[0m [90m▀[0m[38;5;235m▀[0m[38;5;235m▀[0m[90m▀[0m [0m▀[0m[0m▀[0m[0m▀[0m[0m▀[0m [0m▀[0m[0m▀[0m[0m▀[0m[0m▀[0m [0m▀[0m[0m▀[0m[0m▀[0m[0m▀[0m [0m▀[0m[0m▀[0m[0m▀[0m[0m▀[0m
+
+Commands:
+  opencode completion          generate shell completion script
+  opencode acp                 start ACP (Agent Client Protocol) server
+  opencode mcp                 manage MCP (Model Context Protocol) servers
+  opencode [project]           start opencode tui                                          [default]
+  opencode attach <url>        attach to a running opencode server
+  opencode run [message..]     run opencode with a message
+  opencode debug               debugging and troubleshooting tools
+  opencode providers           manage AI providers and credentials                   [aliases: auth]
+  opencode agent               manage agents
+  opencode upgrade [target]    upgrade opencode to the latest or a specific version
+  opencode uninstall           uninstall opencode and remove all related files
+  opencode serve               starts a headless opencode server
+  opencode web                 start opencode server and open web interface
+  opencode models [provider]   list all available models
+  opencode stats               show token usage and cost statistics
+  opencode export [sessionID]  export session data as JSON
+  opencode import <file>       import session data from JSON file or URL
+  opencode github              manage GitHub agent
+  opencode pr <number>         fetch and checkout a GitHub PR branch, then run opencode
+  opencode session             manage sessions
+  opencode plugin <module>     install plugin and update config                      [aliases: plug]
+  opencode db                  database tools
+
+Positionals:
+  project  path to start opencode in                                                        [string]
+
+Options:
+  -h, --help         show help                                                             [boolean]
+  -v, --version      show version number                                                   [boolean]
+      --print-logs   print logs to stderr                                                  [boolean]
+      --log-level    log level                  [string] [choices: "DEBUG", "INFO", "WARN", "ERROR"]
+      --pure         run without external plugins                                          [boolean]
+      --port         port to listen on                                         [number] [default: 0]
+      --hostname     hostname to listen on                           [string] [default: "127.0.0.1"]
+      --mdns         enable mDNS service discovery (defaults hostname to 0.0.0.0)
+                                                                          [boolean] [default: false]
+      --mdns-domain  custom domain name for mDNS service (default: opencode.local)
+                                                                [string] [default: "opencode.local"]
+      --cors         additional domains to allow for CORS                      [array] [default: []]
+  -m, --model        model to use in the format of provider/model                           [string]
+  -c, --continue     continue the last session                                             [boolean]
+  -s, --session      session id to continue                                                 [string]
+      --fork         fork the session when continuing (use with --continue or --session)   [boolean]
+      --prompt       prompt to use                                                          [string]
+      --agent        agent to use                                                           [string]nSMOKE_EXIT=0n

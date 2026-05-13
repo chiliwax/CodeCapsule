@@ -74,5 +74,9 @@ export function generateGitignore(): string {
   return `# CodeCapsule local config (machine-specific)
 local.json
 imports/
+state/
+cache/
+tmp/
+logs/
 `;
 }

@@ -1,5 +1,5 @@
 import { execFileSync } from 'node:child_process';
-import { existsSync, readFileSync } from 'node:fs';
+import { existsSync, readFileSync, rmSync } from 'node:fs';
 import { join } from 'node:path';
 import { Command } from 'commander';
 import { validateProfile } from '../core/schemas.js';
@@ -7,6 +7,7 @@ import type { Profile } from '../core/types.js';
 
 interface CleanOptions {
   yes?: boolean;
+  includeState?: boolean;
 }
 
 export interface CleanResult {
@@ -25,25 +26,11 @@ function loadProfile(cwd: string): Profile | undefined {
   return validateProfile(JSON.parse(readFileSync(profilePath, 'utf8')) as unknown);
 }
 
-function dockerResourceExists(kind: 'volume' | 'image', name: string): boolean {
+function dockerResourceExists(kind: 'image', name: string): boolean {
   try {
     execFileSync('docker', [kind, 'inspect', name], { stdio: 'ignore' });
     return true;
   } catch {
-    return false;
-  }
-}
-
-function removeVolume(name: string, errors: string[]): boolean {
-  if (!dockerResourceExists('volume', name)) {
-    return false;
-  }
-
-  try {
-    execFileSync('docker', ['volume', 'rm', name], { encoding: 'utf8', stdio: ['ignore', 'pipe', 'pipe'] });
-    return true;
-  } catch {
-    errors.push(`Failed to remove volume: ${name}`);
     return false;
   }
 }
@@ -62,6 +49,22 @@ function removeImage(name: string, errors: string[]): boolean {
   }
 }
 
+function removeLocalPath(path: string, cwd: string, errors: string[]): boolean {
+  const fullPath = join(cwd, path);
+
+  if (!existsSync(fullPath)) {
+    return false;
+  }
+
+  try {
+    rmSync(fullPath, { recursive: true, force: true });
+    return true;
+  } catch {
+    errors.push(`Failed to remove path: ${path}`);
+    return false;
+  }
+}
+
 export function runClean(options: CleanOptions = {}, cwd = process.cwd()): CleanResult {
   if (!options.yes) {
     throw new Error('Interactive clean is not available yet. Re-run with --yes.');
@@ -76,16 +79,20 @@ export function runClean(options: CleanOptions = {}, cwd = process.cwd()): Clean
     return { code: 0, removed, errors };
   }
 
+  const removeState = options.includeState ?? false;
+
   process.stdout.write('The following CodeCapsule resources will be removed:\n');
-  process.stdout.write(`  - volume: ${profile.stateVolume}\n`);
-  process.stdout.write(`  - volume: ${profile.cacheVolume}\n`);
+  if (removeState) {
+    process.stdout.write(`  - path: ${profile.statePath}\n`);
+  }
+  process.stdout.write(`  - path: ${profile.cachePath}\n`);
   process.stdout.write(`  - image: ${profile.imageName}\n`);
 
-  if (removeVolume(profile.stateVolume, errors)) {
-    removed.push(`volume:${profile.stateVolume}`);
+  if (removeState && removeLocalPath(profile.statePath, cwd, errors)) {
+    removed.push(`path:${profile.statePath}`);
   }
-  if (removeVolume(profile.cacheVolume, errors)) {
-    removed.push(`volume:${profile.cacheVolume}`);
+  if (removeLocalPath(profile.cachePath, cwd, errors)) {
+    removed.push(`path:${profile.cachePath}`);
   }
   if (removeImage(profile.imageName, errors)) {
     removed.push(`image:${profile.imageName}`);
@@ -95,8 +102,9 @@ export function runClean(options: CleanOptions = {}, cwd = process.cwd()): Clean
 }
 
 export const cleanCommand = new Command('clean')
-  .description('Remove CodeCapsule Docker volumes and images')
+  .description('Remove CodeCapsule local cache path and Docker image (state is preserved by default)')
   .option('--yes', 'confirm removal without interactive prompt')
+  .option('--include-state', 'also remove the local state path (sessions, auth, etc.)')
   .action((options: CleanOptions) => {
     const result = runClean(options);
 

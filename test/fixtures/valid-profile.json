@@ -4,8 +4,8 @@
   "imageName": "codecapsule/opencode:latest",
   "containerWorkdir": "/workspace",
   "opencodeVersion": "latest",
-  "stateVolume": "codecapsule-opencode-state",
-  "cacheVolume": "codecapsule-opencode-cache",
+  "statePath": ".codecapsule/state/opencode",
+  "cachePath": ".codecapsule/cache/opencode",
   "network": "bridge",
   "imports": {
     "settings": true,

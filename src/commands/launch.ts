@@ -4,7 +4,7 @@ import { join } from 'node:path';
 import { Command } from 'commander';
 import { validateLocalConfig, validateProfile } from '../core/schemas.js';
 import type { LocalConfig, Profile } from '../core/types.js';
-import { buildDockerCommand, buildDockerImage, checkImageExists, formatDockerCommand } from '../docker/runner.js';
+import { buildDockerCommand, buildDockerImage, checkImageExists, formatDockerCommand, getProjectImageTag } from '../docker/runner.js';
 
 interface LaunchCommandOptions {
   dryRun?: boolean;
@@ -18,7 +18,14 @@ export interface LaunchResult {
 }
 
 function formatBuildCommand(profile: Profile, cwd: string): string {
-  return formatDockerCommand(['build', '-f', join(cwd, '.codecapsule', `Dockerfile.${profile.tool}`), '-t', profile.imageName, cwd]);
+  return formatDockerCommand([
+    'build',
+    '-f', join(cwd, '.codecapsule', `Dockerfile.${profile.tool}`),
+    '--build-arg', `USER_ID=${typeof process.getuid === 'function' ? process.getuid() : 1000}`,
+    '--build-arg', `GROUP_ID=${typeof process.getgid === 'function' ? process.getgid() : 1000}`,
+    '-t', getProjectImageTag(profile, cwd),
+    cwd
+  ]);
 }
 
 function isDockerUnavailable(error: unknown): boolean {
@@ -95,6 +102,7 @@ export function loadLaunchConfig(cwd = process.cwd()): { profile: Profile; local
 export async function runLaunch(options: LaunchCommandOptions = {}, cwd = process.cwd(), extraArgs: string[] = []): Promise<LaunchResult> {
   try {
     const { profile, localConfig } = loadLaunchConfig(cwd);
+    const imageTag = getProjectImageTag(profile, cwd);
     const command = buildDockerCommand(profile, localConfig, { dryRun: Boolean(options.dryRun), build: options.build, cwd, command: extraArgs });
 
     if (options.dryRun) {
@@ -107,12 +115,12 @@ export async function runLaunch(options: LaunchCommandOptions = {}, cwd = proces
     if (options.build === true) {
       await buildDockerImage(profile, cwd);
     } else if (options.build === false) {
-      const imageExists = await checkImageExists(profile.imageName);
+      const imageExists = await checkImageExists(imageTag);
       if (!imageExists) {
-        return { code: 1, command, message: `Docker image ${profile.imageName} is missing. Re-run without --no-build or pass --build.` };
+        return { code: 1, command, message: `Docker image ${imageTag} is missing. Re-run without --no-build or pass --build.` };
       }
     } else {
-      const imageExists = await checkImageExists(profile.imageName);
+      const imageExists = await checkImageExists(imageTag);
       if (!imageExists) {
         await buildDockerImage(profile, cwd);
       }

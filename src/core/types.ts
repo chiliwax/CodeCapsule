@@ -24,8 +24,8 @@ export interface Profile {
   imageName: string;
   containerWorkdir: string;
   opencodeVersion: string;
-  stateVolume: string;
-  cacheVolume: string;
+  statePath: string;
+  cachePath: string;
   network: string;
   imports: ImportSelections;
   security: SecurityPolicy;

@@ -63,12 +63,12 @@ export const ProfileSchema = z.object({
   imageName: z.string().min(1),
   containerWorkdir: z.string().min(1).default('/workspace'),
   opencodeVersion: z.string().min(1).default('latest'),
-  stateVolume: z.string().min(1),
-  cacheVolume: z.string().min(1),
+  statePath: z.string().min(1).default('.codecapsule/state/opencode'),
+  cachePath: z.string().min(1).default('.codecapsule/cache/opencode'),
   network: z.string().min(1).default('bridge'),
   imports: ImportsSchema.default(defaultImports),
   security: SecurityPolicySchema.default(defaultSecurityPolicy)
-});
+}).strict();
 
 export const LocalConfigSchema = z.object({
   hostSourcePaths: z.object({
@@ -93,6 +93,12 @@ export function isSafeProfile(profile: Profile): boolean {
 }
 
 export function validateProfile(data: unknown): Profile {
+  if (typeof data === 'object' && data !== null && ('stateVolume' in data || 'cacheVolume' in data)) {
+    throw new Error(
+      'Profile uses legacy stateVolume/cacheVolume fields. Re-run codecapsule init --force to migrate to statePath/cachePath.'
+    );
+  }
+
   const profile = ProfileSchema.parse(data) satisfies Profile;
 
   if (!isSafeProfile(profile)) {

@@ -1,5 +1,5 @@
 import { execFileSync } from 'node:child_process';
-import { join } from 'node:path';
+import { basename, join } from 'node:path';
 import { getAdapter } from '../adapters/index.js';
 import { importCategories } from '../core/schemas.js';
 import type { ImportCategory, LocalConfig, Profile } from '../core/types.js';
@@ -20,10 +20,35 @@ export async function checkImageExists(imageName: string): Promise<boolean> {
   }
 }
 
+function getHostUserId(): number {
+  return typeof process.getuid === 'function' ? process.getuid() : 1000;
+}
+
+function getHostGroupId(): number {
+  return typeof process.getgid === 'function' ? process.getgid() : 1000;
+}
+
+function getProjectSlug(cwd: string): string {
+  const slug = basename(cwd).toLowerCase().replace(/[^a-z0-9_.-]+/g, '-').replace(/^-+|-+$/g, '');
+  return slug || 'project';
+}
+
+export function getProjectImageTag(profile: Profile, cwd: string): string {
+  return `codecapsule/${profile.tool}:${getProjectSlug(cwd)}-uid${getHostUserId()}-gid${getHostGroupId()}`;
+}
+
 export async function buildDockerImage(profile: Profile, cwd: string): Promise<boolean> {
   const dockerfile = join(cwd, '.codecapsule', `Dockerfile.${profile.tool}`);
+  const imageTag = getProjectImageTag(profile, cwd);
 
-  execFileSync('docker', ['build', '-f', dockerfile, '-t', profile.imageName, cwd], { stdio: 'inherit' });
+  execFileSync('docker', [
+    'build',
+    '-f', dockerfile,
+    '--build-arg', `USER_ID=${getHostUserId()}`,
+    '--build-arg', `GROUP_ID=${getHostGroupId()}`,
+    '-t', imageTag,
+    cwd
+  ], { stdio: 'inherit' });
   return true;
 }
 
@@ -53,6 +78,7 @@ export function buildDockerCommand(
   assertSafeProfile(profile);
 
   const adapter = getAdapter(profile.tool);
+  const cwd = options.cwd || process.cwd();
   const args = ['run'];
 
   args.push('--rm');
@@ -60,18 +86,18 @@ export function buildDockerCommand(
   args.push('--network', profile.network || 'bridge');
   args.push('--workdir', profile.containerWorkdir || '/workspace');
   args.push('--user', 'codecapsule');
-  args.push('-v', `${options.cwd || process.cwd()}:/workspace`);
+  args.push('-v', `${cwd}:/workspace`);
   args.push('-e', 'HOME=/home/codecapsule');
   args.push('-e', 'XDG_CONFIG_HOME=/home/codecapsule/.config');
   args.push('-e', 'XDG_DATA_HOME=/home/codecapsule/.local/share');
   args.push('-e', 'XDG_CACHE_HOME=/home/codecapsule/.cache');
 
-  if (profile.stateVolume) {
-    args.push('-v', `${profile.stateVolume}:/home/codecapsule/.local/share/opencode`);
+  if (profile.statePath) {
+    args.push('-v', `${join(cwd, profile.statePath)}:/home/codecapsule/.local/share/opencode`);
   }
 
-  if (profile.cacheVolume) {
-    args.push('-v', `${profile.cacheVolume}:/home/codecapsule/.cache/opencode`);
+  if (profile.cachePath) {
+    args.push('-v', `${join(cwd, profile.cachePath)}:/home/codecapsule/.cache/opencode`);
   }
 
   for (const envVar of profile.security.envAllowlist) {
@@ -86,7 +112,7 @@ export function buildDockerCommand(
     }
   }
 
-  args.push(profile.imageName);
+  args.push(getProjectImageTag(profile, cwd));
   args.push(...adapter.defaultCommand);
   if (options.command && options.command.length > 0) {
     args.push(...options.command);

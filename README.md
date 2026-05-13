@@ -31,8 +31,11 @@ npx codecapsule launch --dry-run
 # Launch OpenCode in Docker
 npx codecapsule launch --build
 
-# Clean up Docker resources
+# Clean up Docker resources (cache and image only; state is preserved)
 npx codecapsule clean --yes
+
+# Clean up everything including state (sessions, auth, etc.)
+npx codecapsule clean --yes --include-state
 ```
 
 ## Generated Files
@@ -45,6 +48,28 @@ After running `init`, the `.codecapsule/` directory contains:
 | `Dockerfile.opencode` | Yes | Docker image definition for the selected tool |
 | `local.json` | No | Machine-specific host source paths for imported configs |
 | `.gitignore` | Yes | Excludes `local.json` and local `imports/` material |
+
+## Project-Local State and Cache
+
+CodeCapsule keeps state and cache inside your project directory, under `.codecapsule/`. This means each project has its own isolated environment.
+
+| Path | Contents | Preserved by `clean --yes`? |
+|------|----------|----------------------------|
+| `.codecapsule/state/<tool>/` | Sessions, auth, history | Yes (requires `--include-state`) |
+| `.codecapsule/cache/<tool>/` | Image build cache | No |
+| Docker image | Built container image | No |
+
+Use `clean --yes` when you want to free disk space from build artifacts without losing your working sessions. Only add `--include-state` when you intend to fully reset the project.
+
+## Linux UID/GID Build Behavior
+
+On Linux, the Dockerfile is generated with your host user ID and group ID. This ensures file ownership inside the container matches your host user, avoiding permission issues on mounted workspace files.
+
+## Cleanup Safety
+
+- `clean --yes` removes cache and image, but never removes state unless you pass `--include-state`
+- State contains sessions, authentication tokens, and tool history. Do not delete it unless you intend to start fresh
+- Cache is safe to delete at any time. It will be rebuilt on the next `launch --build`
 
 ## Security
 
@@ -87,4 +112,4 @@ npm run test
 - `init` - Create a CodeCapsule profile and local configuration
 - `doctor` - Validate the local CodeCapsule environment
 - `launch` - Launch the configured coding agent in Docker
-- `clean` - Remove CodeCapsule Docker volumes and images
+- `clean` - Remove CodeCapsule cache and Docker image (preserves state by default)

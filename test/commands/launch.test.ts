@@ -19,8 +19,8 @@ function createProfile(overrides: Partial<Profile> = {}): Profile {
     imageName: 'codecapsule/opencode:latest',
     containerWorkdir: '/workspace',
     opencodeVersion: 'latest',
-    stateVolume: 'codecapsule-opencode-state',
-    cacheVolume: 'codecapsule-opencode-cache',
+    statePath: '.codecapsule/state/opencode',
+    cachePath: '.codecapsule/cache/opencode',
     network: 'bridge',
     imports: disabledImports,
     security: {
@@ -75,6 +75,8 @@ describe('runLaunch', () => {
     vi.doMock('node:child_process', () => ({ execFileSync, spawn }));
     const cwd = createLaunchProject();
     const { runLaunch } = await import('../../src/commands/launch.js');
+    const { getProjectImageTag } = await import('../../src/docker/runner.js');
+    const imageTag = getProjectImageTag(createProfile(), cwd);
 
     const result = await runLaunch({ dryRun: true }, cwd);
 
@@ -83,6 +85,10 @@ describe('runLaunch', () => {
     expect(result.message).toContain('--rm');
     expect(result.message).toContain('-it');
     expect(result.message).toContain(`${cwd}:/workspace`);
+    expect(result.message).toContain(`${cwd}/.codecapsule/state/opencode:/home/codecapsule/.local/share/opencode`);
+    expect(result.message).toContain(`${cwd}/.codecapsule/cache/opencode:/home/codecapsule/.cache/opencode`);
+    expect(result.message).toContain(imageTag);
+    expect(result.message).not.toContain('codecapsule/opencode:latest');
     expect(result.message).not.toContain('--privileged');
     expect(result.message).not.toContain('/var/run/docker.sock');
     expect(execFileSync).not.toHaveBeenCalled();
@@ -95,11 +101,13 @@ describe('runLaunch', () => {
     vi.doMock('node:child_process', () => ({ execFileSync, spawn }));
     const cwd = createLaunchProject();
     const { runLaunch } = await import('../../src/commands/launch.js');
+    const { getProjectImageTag } = await import('../../src/docker/runner.js');
+    const imageTag = getProjectImageTag(createProfile(), cwd);
 
     const result = await runLaunch({ dryRun: true }, cwd, ['--help']);
 
     expect(result.code).toBe(0);
-    expect(result.command?.slice(-3)).toEqual(['codecapsule/opencode:latest', 'opencode', '--help']);
+    expect(result.command?.slice(-3)).toEqual([imageTag, 'opencode', '--help']);
     expect(result.message).toContain('--help');
     expect(spawn).not.toHaveBeenCalled();
   });
@@ -110,12 +118,17 @@ describe('runLaunch', () => {
     vi.doMock('node:child_process', () => ({ execFileSync, spawn }));
     const cwd = createLaunchProject();
     const { runLaunch } = await import('../../src/commands/launch.js');
+    const { getProjectImageTag } = await import('../../src/docker/runner.js');
+    const imageTag = getProjectImageTag(createProfile(), cwd);
 
     const result = await runLaunch({ dryRun: true, build: true }, cwd);
 
     expect(result.code).toBe(0);
     expect(result.message).toContain('docker build');
     expect(result.message).toContain(join(cwd, '.codecapsule', 'Dockerfile.opencode'));
+    expect(result.message).toContain(`USER_ID=${process.getuid?.() ?? 1000}`);
+    expect(result.message).toContain(`GROUP_ID=${process.getgid?.() ?? 1000}`);
+    expect(result.message).toContain(imageTag);
     expect(result.message).toContain('docker run');
     expect(execFileSync).not.toHaveBeenCalled();
     expect(spawn).not.toHaveBeenCalled();
@@ -132,11 +145,42 @@ describe('runLaunch', () => {
     vi.doMock('node:child_process', () => ({ execFileSync, spawn }));
     const cwd = createLaunchProject();
     const { runLaunch } = await import('../../src/commands/launch.js');
+    const { getProjectImageTag } = await import('../../src/docker/runner.js');
+    const imageTag = getProjectImageTag(createProfile(), cwd);
 
     const result = await runLaunch({}, cwd);
 
     expect(result.code).toBe(23);
+    expect(execFileSync).toHaveBeenCalledWith('docker', ['image', 'inspect', imageTag], { stdio: 'ignore' });
     expect(spawn).toHaveBeenCalledWith('docker', expect.arrayContaining(['run', '--rm', '-it']), { stdio: 'inherit' });
+  });
+
+  test('--build passes host uid and gid build args for the project-scoped image', async () => {
+    const child = new EventEmitter() as EventEmitter & { kill: ReturnType<typeof vi.fn> };
+    child.kill = vi.fn();
+    const execFileSync = vi.fn();
+    const spawn = vi.fn(() => {
+      process.nextTick(() => child.emit('exit', 0));
+      return child;
+    });
+    vi.doMock('node:child_process', () => ({ execFileSync, spawn }));
+    const cwd = createLaunchProject();
+    const { runLaunch } = await import('../../src/commands/launch.js');
+    const { getProjectImageTag } = await import('../../src/docker/runner.js');
+    const imageTag = getProjectImageTag(createProfile(), cwd);
+
+    const result = await runLaunch({ build: true }, cwd);
+
+    expect(result.code).toBe(0);
+    expect(execFileSync).toHaveBeenCalledWith('docker', [
+      'build',
+      '-f', join(cwd, '.codecapsule', 'Dockerfile.opencode'),
+      '--build-arg', `USER_ID=${process.getuid?.() ?? 1000}`,
+      '--build-arg', `GROUP_ID=${process.getgid?.() ?? 1000}`,
+      '-t', imageTag,
+      cwd
+    ], { stdio: 'inherit' });
+    expect(spawn).toHaveBeenCalledWith('docker', expect.arrayContaining([imageTag]), { stdio: 'inherit' });
   });
 
   test('forwards SIGINT and SIGTERM to the Docker child process', async () => {

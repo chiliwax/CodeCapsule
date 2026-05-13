@@ -1,0 +1,32 @@
+
+> codecapsule@0.1.0 test
+> vitest run --run
+
+
+ RUN  v4.1.6 /Users/thibault/Documents/WORK/safe-code
+
+Warning: A vi.unmock("node:child_process") call in "/Users/thibault/Documents/WORK/safe-code/test/commands/doctor.test.ts" is not at the top level of the module. Although it appears nested, it will be hoisted and executed before any tests run. Move it to the top level to reflect its actual execution order. This will become an error in a future version.
+See: https://vitest.dev/guide/mocking/modules#how-it-works
+Warning: A vi.unmock("node:child_process") call in "/Users/thibault/Documents/WORK/safe-code/test/commands/clean.test.ts" is not at the top level of the module. Although it appears nested, it will be hoisted and executed before any tests run. Move it to the top level to reflect its actual execution order. This will become an error in a future version.
+See: https://vitest.dev/guide/mocking/modules#how-it-works
+Warning: A vi.unmock("node:child_process") call in "/Users/thibault/Documents/WORK/safe-code/test/commands/launch.test.ts" is not at the top level of the module. Although it appears nested, it will be hoisted and executed before any tests run. Move it to the top level to reflect its actual execution order. This will become an error in a future version.
+See: https://vitest.dev/guide/mocking/modules#how-it-works
+No CodeCapsule profile found; nothing to clean.
+The following CodeCapsule resources will be removed:
+  - volume: codecapsule-opencode-state
+  - volume: codecapsule-opencode-cache
+  - image: codecapsule/opencode:latest
+The following CodeCapsule resources will be removed:
+  - volume: codecapsule-opencode-state
+  - volume: codecapsule-opencode-cache
+  - image: codecapsule/opencode:latest
+The following CodeCapsule resources will be removed:
+  - volume: codecapsule-opencode-state
+  - volume: codecapsule-opencode-cache
+  - image: codecapsule/opencode:latest
+
+ Test Files  12 passed (12)
+      Tests  60 passed (60)
+   Start at  10:42:16
+   Duration  327ms (transform 354ms, setup 0ms, import 838ms, tests 231ms, environment 1ms)
+

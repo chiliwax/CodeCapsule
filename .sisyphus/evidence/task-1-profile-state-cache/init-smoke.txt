@@ -1,0 +1,2 @@
+Created .codecapsule/profile.json, local.json, Dockerfile.opencode, and .gitignore
+{"statePath":".codecapsule/state/opencode","cachePath":".codecapsule/cache/opencode"}

@@ -2,8 +2,8 @@
   "schemaVersion": "1",
   "tool": "opencode",
   "imageName": "codecapsule/opencode:latest",
-  "stateVolume": "codecapsule-opencode-state",
-  "cacheVolume": "codecapsule-opencode-cache",
+  "statePath": ".codecapsule/state/opencode",
+  "cachePath": ".codecapsule/cache/opencode",
   "security": {
     "allowPrivileged": true,
     "allowDockerSocket": true,

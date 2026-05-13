@@ -77,6 +77,10 @@ describe('generateGitignore', () => {
     expect(generateGitignore()).toBe(`# CodeCapsule local config (machine-specific)
 local.json
 imports/
+state/
+cache/
+tmp/
+logs/
 `);
   });
 });

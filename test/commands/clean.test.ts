@@ -1,4 +1,4 @@
-import { mkdtempSync, rmSync } from 'node:fs';
+import { existsSync, mkdirSync, mkdtempSync, rmSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import { afterEach, describe, expect, test, vi } from 'vitest';
@@ -36,7 +36,7 @@ describe('runClean', () => {
     expect(result.errors).toEqual([]);
   });
 
-  test('removes volumes and image when profile exists', async () => {
+  test('removes local cache path and image but preserves state by default when profile exists', async () => {
     const execCalls: string[][] = [];
     vi.doMock('node:child_process', () => ({
       execFileSync: (...args: string[]) => {
@@ -51,18 +51,52 @@ describe('runClean', () => {
     ]);
     const cwd = createTempDir();
     runInit({ tool: 'opencode', yes: true }, cwd);
+    mkdirSync(join(cwd, '.codecapsule', 'state', 'opencode'), { recursive: true });
+    mkdirSync(join(cwd, '.codecapsule', 'cache', 'opencode'), { recursive: true });
 
     const result = runClean({ yes: true }, cwd);
 
     expect(result.code).toBe(0);
-    expect(result.removed).toContain('volume:codecapsule-opencode-state');
-    expect(result.removed).toContain('volume:codecapsule-opencode-cache');
+    expect(result.removed).not.toContain('path:.codecapsule/state/opencode');
+    expect(result.removed).toContain('path:.codecapsule/cache/opencode');
     expect(result.removed).toContain('image:codecapsule/opencode:latest');
     expect(result.errors).toEqual([]);
+    expect(existsSync(join(cwd, '.codecapsule', 'state', 'opencode'))).toBe(true);
+    expect(existsSync(join(cwd, '.codecapsule', 'cache', 'opencode'))).toBe(false);
 
-    const volumeCalls = execCalls.filter((call) => call[0] === 'docker' && call[1][0] === 'volume');
     const imageCalls = execCalls.filter((call) => call[0] === 'docker' && call[1][0] === 'image');
-    expect(volumeCalls.length).toBe(4);
+    expect(imageCalls.length).toBe(2);
+  });
+
+  test('removes state when --include-state is passed', async () => {
+    const execCalls: string[][] = [];
+    vi.doMock('node:child_process', () => ({
+      execFileSync: (...args: string[]) => {
+        execCalls.push(args);
+        return '';
+      }
+    }));
+
+    const [{ runInit }, { runClean }] = await Promise.all([
+      import('../../src/commands/init.js'),
+      import('../../src/commands/clean.js')
+    ]);
+    const cwd = createTempDir();
+    runInit({ tool: 'opencode', yes: true }, cwd);
+    mkdirSync(join(cwd, '.codecapsule', 'state', 'opencode'), { recursive: true });
+    mkdirSync(join(cwd, '.codecapsule', 'cache', 'opencode'), { recursive: true });
+
+    const result = runClean({ yes: true, includeState: true }, cwd);
+
+    expect(result.code).toBe(0);
+    expect(result.removed).toContain('path:.codecapsule/state/opencode');
+    expect(result.removed).toContain('path:.codecapsule/cache/opencode');
+    expect(result.removed).toContain('image:codecapsule/opencode:latest');
+    expect(result.errors).toEqual([]);
+    expect(existsSync(join(cwd, '.codecapsule', 'state', 'opencode'))).toBe(false);
+    expect(existsSync(join(cwd, '.codecapsule', 'cache', 'opencode'))).toBe(false);
+
+    const imageCalls = execCalls.filter((call) => call[0] === 'docker' && call[1][0] === 'image');
     expect(imageCalls.length).toBe(2);
   });
 
@@ -80,6 +114,8 @@ describe('runClean', () => {
     ]);
     const cwd = createTempDir();
     runInit({ tool: 'opencode', yes: true }, cwd);
+    rmSync(join(cwd, '.codecapsule', 'state'), { recursive: true, force: true });
+    rmSync(join(cwd, '.codecapsule', 'cache'), { recursive: true, force: true });
 
     const result = runClean({ yes: true }, cwd);
 
@@ -108,14 +144,14 @@ describe('runClean', () => {
     ]);
     const cwd = createTempDir();
     runInit({ tool: 'opencode', yes: true }, cwd);
+    rmSync(join(cwd, '.codecapsule', 'state'), { recursive: true, force: true });
+    rmSync(join(cwd, '.codecapsule', 'cache'), { recursive: true, force: true });
 
     const result = runClean({ yes: true }, cwd);
 
     expect(result.code).toBe(1);
     expect(result.removed).toEqual([]);
-    expect(result.errors.length).toBe(3);
-    expect(result.errors[0]).toBe('Failed to remove volume: codecapsule-opencode-state');
-    expect(result.errors[1]).toBe('Failed to remove volume: codecapsule-opencode-cache');
-    expect(result.errors[2]).toBe('Failed to remove image: codecapsule/opencode:latest');
+    expect(result.errors.length).toBe(1);
+    expect(result.errors[0]).toBe('Failed to remove image: codecapsule/opencode:latest');
   });
 });

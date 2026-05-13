@@ -14,6 +14,8 @@ describe('ProfileSchema', () => {
 
     expect(profile.tool).toBe('opencode');
     expect(profile.containerWorkdir).toBe('/workspace');
+    expect(profile.statePath).toBe('.codecapsule/state/opencode');
+    expect(profile.cachePath).toBe('.codecapsule/cache/opencode');
     expect(profile.security.allowPrivileged).toBe(false);
   });
 
@@ -53,11 +55,11 @@ describe('ProfileSchema', () => {
     const profile = ProfileSchema.parse({
       schemaVersion: '1',
       tool: 'opencode',
-      imageName: 'codecapsule/opencode:latest',
-      stateVolume: 'codecapsule-opencode-state',
-      cacheVolume: 'codecapsule-opencode-cache'
+      imageName: 'codecapsule/opencode:latest'
     });
 
+    expect(profile.statePath).toBe('.codecapsule/state/opencode');
+    expect(profile.cachePath).toBe('.codecapsule/cache/opencode');
     expect(profile.imports).toEqual({
       settings: false,
       auth: false,
@@ -68,5 +70,15 @@ describe('ProfileSchema', () => {
       tools: false,
       themes: false
     });
+  });
+
+  test('rejects legacy named-volume profile fields with a migration error', () => {
+    expect(() => validateProfile({
+      schemaVersion: '1',
+      tool: 'opencode',
+      imageName: 'codecapsule/opencode:latest',
+      stateVolume: 'codecapsule-opencode-state',
+      cacheVolume: 'codecapsule-opencode-cache'
+    })).toThrow('Profile uses legacy stateVolume/cacheVolume fields');
   });
 });

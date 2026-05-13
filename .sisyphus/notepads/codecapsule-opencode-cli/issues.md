@@ -15,3 +15,15 @@
 - Verification passed: LSP diagnostics on src reported 0 diagnostics across 14 files; npm run typecheck exited 0; npm test passed 53/53 across 12 files; npm run build exited 0.
 - Review concern: critical security regressions lack direct tests for allowHostHomeMount, allowSshAgent, and invalid opencodeVersion rejection.
 - 2026-05-12 final compliance audit: `node dist/cli.js --help`, `npm run typecheck`, `npm test -- --run`, `npm run build`, `lsp_diagnostics src`, `doctor`, and normal `launch --dry-run` passed. Remaining blockers: launch extra args are rejected as too many arguments; auth import is host read-only mounted instead of copied into state volume.
+
+## Task 4 runner local mounts - 2026-05-13
+
+- Verification passed with existing Vitest hoist warnings for nested `vi.unmock("node:child_process")` in launch/doctor/clean tests; these warnings predate this task and are captured in test evidence.
+
+## Task 6 E2E QA - 2026-05-13
+
+- Verification passed with the same existing Vitest nested `vi.unmock("node:child_process")` hoist warnings in launch/doctor/clean tests; not a blocker for this task.
+
+## 2026-05-13 Vitest warning during final QA
+
+- `npm test` passed, but Vitest warned that nested `vi.unmock("node:child_process")` calls in `test/commands/doctor.test.ts`, `test/commands/clean.test.ts`, and `test/commands/launch.test.ts` are hoisted today and may become errors in a future Vitest version.

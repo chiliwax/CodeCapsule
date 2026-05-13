@@ -24,21 +24,36 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     tini \
     && rm -rf /var/lib/apt/lists/*
 
-RUN groupadd -g \${GROUP_ID} codecapsule \
-    && useradd -u \${USER_ID} -g \${GROUP_ID} -m -d /home/codecapsule -s /bin/bash codecapsule \
-    && mkdir -p /home/codecapsule/.config/opencode \
+RUN set -eux; \
+    GROUP_ID=\${GROUP_ID:-10001}; \
+    USER_ID=\${USER_ID:-10001}; \
+    if getent group "$GROUP_ID" >/dev/null 2>&1; then \
+        existing_group=$(getent group "$GROUP_ID" | cut -d: -f1); \
+        groupadd -n codecapsule -g "$GROUP_ID" 2>/dev/null || true; \
+        groupmod -n codecapsule "$existing_group" 2>/dev/null || true; \
+    else \
+        groupadd -g "$GROUP_ID" codecapsule; \
+    fi; \
+    if id -u "$USER_ID" >/dev/null 2>&1; then \
+        existing_user=$(id -un "$USER_ID"); \
+        usermod -l codecapsule "$existing_user" 2>/dev/null || true; \
+        usermod -d /home/codecapsule -m codecapsule 2>/dev/null || true; \
+    else \
+        useradd -u "$USER_ID" -g codecapsule -m -d /home/codecapsule -s /bin/bash codecapsule; \
+    fi; \
+    mkdir -p /home/codecapsule/.config/opencode \
         /home/codecapsule/.local/share/opencode \
-        /home/codecapsule/.cache/opencode \
-    && chown -R codecapsule:codecapsule /home/codecapsule
+        /home/codecapsule/.cache/opencode; \
+    chown -R codecapsule:codecapsule /home/codecapsule
 
 RUN npm install -g opencode-ai@\${OPENCODE_VERSION}
 
+USER codecapsule
 ENV HOME=/home/codecapsule \
     XDG_CONFIG_HOME=/home/codecapsule/.config \
     XDG_DATA_HOME=/home/codecapsule/.local/share \
     XDG_CACHE_HOME=/home/codecapsule/.cache
 
-USER codecapsule
 WORKDIR /workspace
 
 ENTRYPOINT ["tini", "--"]

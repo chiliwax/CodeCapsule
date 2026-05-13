@@ -1,7 +1,7 @@
 import { execFileSync } from 'node:child_process';
 import { mkdirSync, mkdtempSync, readFileSync, rmSync, writeFileSync } from 'node:fs';
 import { tmpdir } from 'node:os';
-import { join } from 'node:path';
+import { basename, join } from 'node:path';
 import { afterEach, beforeEach, describe, expect, test } from 'vitest';
 import { runClean } from '../../src/commands/clean.js';
 import { runDoctor } from '../../src/commands/doctor.js';
@@ -129,6 +129,28 @@ describe('e2e workflow', () => {
     }
     expect(command).not.toContain('SSH_AUTH_SOCK');
     expect(command).not.toContain('SSH_AGENT_PID');
+  });
+
+  test('launch --dry-run uses project-scoped state, cache, user, and image tag', async () => {
+    runInit({ tool: 'opencode', yes: true }, tempDir);
+
+    const result = await runLaunch({ dryRun: true, build: true }, tempDir, ['--help']);
+    const command = result.message ?? '';
+    const projectSlug = basename(tempDir).toLowerCase();
+    const userId = typeof process.getuid === 'function' ? process.getuid() : 1000;
+    const groupId = typeof process.getgid === 'function' ? process.getgid() : 1000;
+
+    expect(result.code).toBe(0);
+    expect(command).toContain(join(tempDir, '.codecapsule/state/opencode'));
+    expect(command).toContain(join(tempDir, '.codecapsule/cache/opencode'));
+    expect(command).toContain('--user codecapsule');
+    expect(command).toContain('HOME=/home/codecapsule');
+    expect(command).toContain(`--build-arg USER_ID=${userId}`);
+    expect(command).toContain(`--build-arg GROUP_ID=${groupId}`);
+    expect(command).toContain(`codecapsule/opencode:${projectSlug}-uid${userId}-gid${groupId}`);
+    expect(command).toContain('--help');
+    expect(command).not.toContain('codecapsule-opencode-state');
+    expect(command).not.toContain('codecapsule-opencode-cache');
   });
 
   test('clean requires --yes', () => {
