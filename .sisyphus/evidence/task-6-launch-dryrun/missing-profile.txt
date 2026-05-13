@@ -1,0 +1,5 @@
+Command: node /Users/thibault/Documents/WORK/safe-code/dist/cli.js launch --dry-run
+Exit: nonzero
+
+Output:
+Missing .codecapsule/profile.json. Run `codecapsule init --tool opencode --yes` first.

@@ -1,0 +1,6 @@
+Command: npm test -- --run
+Result: passed
+
+Test Files: 5 passed (5)
+Tests: 18 passed (18)
+Included new suite: test/docker/dockerfile.test.ts (5 tests)

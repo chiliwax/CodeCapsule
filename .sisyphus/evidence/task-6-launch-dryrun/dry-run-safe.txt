@@ -1,0 +1,9 @@
+Commands:
+node /Users/thibault/Documents/WORK/safe-code/dist/cli.js init --tool opencode --yes
+node /Users/thibault/Documents/WORK/safe-code/dist/cli.js launch --dry-run
+
+Output:
+Created .codecapsule/profile.json, local.json, Dockerfile.opencode, and .gitignore
+docker run --rm -it --network bridge --workdir /workspace --user 501:20 -v /private/var/folders/vw/_p1g7zw10cdcckymjrhgtqx80000gn/T/opencode/codecapsule-qa.JqGj35:/workspace -v codecapsule-opencode-state:/home/codecapsule/.local/share/opencode -v codecapsule-opencode-cache:/home/codecapsule/.cache/opencode -e TERM codecapsule/opencode:latest opencode
+
+Verified exclusions in output: no --privileged, no /var/run/docker.sock, no broad host home mount.

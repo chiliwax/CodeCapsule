@@ -1,0 +1,2 @@
+lsp_diagnostics test/e2e/workflow.test.ts: No diagnostics found
+JSON fixture diagnostics: not available because configured Biome LSP is not installed in this environment

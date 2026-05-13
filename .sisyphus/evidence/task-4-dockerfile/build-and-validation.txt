@@ -1,0 +1,10 @@
+Command: npm run build
+Result: passed
+
+> codecapsule@0.1.0 build
+> tsc -p tsconfig.json
+
+Command: node -e "import('./dist/docker/dockerfile.js').then(...)"
+Result: passed
+
+Generated Dockerfile validation passed

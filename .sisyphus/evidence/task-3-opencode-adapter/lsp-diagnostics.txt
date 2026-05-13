@@ -1,0 +1,3 @@
+src/adapters/opencode.ts: No diagnostics found
+src/adapters/index.ts: No diagnostics found
+test/adapters/opencode.test.ts: No diagnostics found

@@ -1,0 +1,110 @@
+{
+  "active_plan": "/Users/thibault/Documents/WORK/safe-code/.sisyphus/plans/codecapsule-opencode-cli.md",
+  "started_at": "2026-05-12T13:38:00.701Z",
+  "session_ids": [
+    "ses_1e3b2bb2effeB1GBM17463aBtn",
+    "ses_1e344e410ffeX6eTv3xd2hOTL3",
+    "ses_1e3442664ffeOrmgxu7ptRbNrK",
+    "ses_1e3440c32ffdlSH7rVB5apfjlo",
+    "ses_1e343f9f7ffdj7AOwond8DXRrb",
+    "ses_1e3343a57ffewlRJjpSSb2iYQk",
+    "ses_1e3342f1dffemtO9k2dwbt8Mlv",
+    "ses_1e3341ebfffdkIcAxcidobMO4l",
+    "ses_1e334126affdNH2WFbAPhnOZgD",
+    "ses_1e300b698ffeCnDj0ngDwPrMZR",
+    "ses_1e300aacfffejNqICF20mG4at0",
+    "ses_1e30095a6ffdD8FV26Zac97PNQ",
+    "ses_1e3008d73ffdzi2xDUZLDvsK6M"
+  ],
+  "session_origins": {
+    "ses_1e3b2bb2effeB1GBM17463aBtn": "direct",
+    "ses_1e344e410ffeX6eTv3xd2hOTL3": "appended",
+    "ses_1e3442664ffeOrmgxu7ptRbNrK": "appended",
+    "ses_1e3440c32ffdlSH7rVB5apfjlo": "appended",
+    "ses_1e343f9f7ffdj7AOwond8DXRrb": "appended",
+    "ses_1e3343a57ffewlRJjpSSb2iYQk": "appended",
+    "ses_1e3342f1dffemtO9k2dwbt8Mlv": "appended",
+    "ses_1e3341ebfffdkIcAxcidobMO4l": "appended",
+    "ses_1e334126affdNH2WFbAPhnOZgD": "appended",
+    "ses_1e300b698ffeCnDj0ngDwPrMZR": "appended",
+    "ses_1e300aacfffejNqICF20mG4at0": "appended",
+    "ses_1e30095a6ffdD8FV26Zac97PNQ": "appended",
+    "ses_1e3008d73ffdzi2xDUZLDvsK6M": "appended"
+  },
+  "plan_name": "codecapsule-opencode-cli",
+  "agent": "atlas",
+  "task_sessions": {
+    "todo:1": {
+      "task_key": "todo:1",
+      "task_label": "1",
+      "task_title": "Scaffold TypeScript CLI Project",
+      "session_id": "ses_1e3949538ffe1EvYQupCJFJOKS",
+      "agent": "Sisyphus-Junior",
+      "category": "quick",
+      "updated_at": "2026-05-12T13:45:44.480Z"
+    },
+    "todo:2": {
+      "task_key": "todo:2",
+      "task_label": "2",
+      "task_title": "Define Profile, Adapter, and Security Contracts",
+      "session_id": "ses_1e38ee647ffeMBLsuMZpvGw1o5",
+      "agent": "Sisyphus-Junior",
+      "category": "unspecified-high",
+      "updated_at": "2026-05-12T13:53:26.269Z"
+    },
+    "todo:3": {
+      "task_key": "todo:3",
+      "task_label": "3",
+      "task_title": "Implement Declarative OpenCode Adapter",
+      "session_id": "ses_1e385eb9affeLcpt53GigFC8oS",
+      "agent": "Sisyphus-Junior",
+      "category": "unspecified-high",
+      "updated_at": "2026-05-12T14:01:47.469Z"
+    },
+    "todo:4": {
+      "task_key": "todo:4",
+      "task_label": "4",
+      "task_title": "Build Generated Dockerfile Template",
+      "session_id": "ses_1e37dbe05ffeMAw5BdllSMr2VU",
+      "agent": "Sisyphus-Junior",
+      "category": "unspecified-high",
+      "updated_at": "2026-05-12T14:09:50.105Z"
+    },
+    "todo:5": {
+      "task_key": "todo:5",
+      "task_label": "5",
+      "task_title": "Implement `init` and `doctor` Commands",
+      "session_id": "ses_1e3760130ffeyNn2w3Av82zsKR",
+      "agent": "Sisyphus-Junior",
+      "category": "unspecified-high",
+      "updated_at": "2026-05-12T14:21:42.771Z"
+    },
+    "todo:8": {
+      "task_key": "todo:8",
+      "task_label": "8",
+      "task_title": "Implement Real Build and Launch Execution",
+      "session_id": "ses_1e3632dcdffeKAHjprDVGZhdfm",
+      "agent": "Sisyphus-Junior",
+      "category": "unspecified-high",
+      "updated_at": "2026-05-12T14:43:32.042Z"
+    },
+    "todo:10": {
+      "task_key": "todo:10",
+      "task_label": "10",
+      "task_title": "End-to-End QA Hardening",
+      "session_id": "ses_1e35336f9ffelTdRcHz2cwCmbW",
+      "agent": "Sisyphus-Junior",
+      "category": "unspecified-high",
+      "updated_at": "2026-05-12T14:59:44.019Z"
+    },
+    "final-wave:f1": {
+      "task_key": "final-wave:f1",
+      "task_label": "F1",
+      "task_title": "Plan Compliance Audit — oracle",
+      "session_id": "ses_1e30095a6ffdD8FV26Zac97PNQ",
+      "agent": "Sisyphus-Junior",
+      "category": "",
+      "updated_at": "2026-05-12T16:32:21.476Z"
+    }
+  }
+}

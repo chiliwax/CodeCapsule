@@ -1,0 +1,5 @@
+Command: npm run build
+Exit: 0
+
+> codecapsule@0.1.0 build
+> tsc -p tsconfig.json
