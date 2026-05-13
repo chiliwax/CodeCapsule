@@ -1,67 +1,48 @@
 {
-  "active_plan": "/Users/thibault/Documents/WORK/safe-code/.sisyphus/plans/codecapsule-project-scoped-state-linux-uid.md",
-  "started_at": "2026-05-13T08:33:51.232Z",
+  "active_plan": "/Users/thibault/Documents/WORK/safe-code/.sisyphus/plans/capsule-cli-alias.md",
+  "started_at": "2026-05-13T13:33:39.888Z",
   "session_ids": [
     "ses_1e3b2bb2effeB1GBM17463aBtn",
-    "ses_1df51a0ffffeeikjC7tFR925p5",
-    "ses_1df518bfeffewCj5H4z95tonkK",
-    "ses_1df51704fffeCprJgw8Mdbtf3I",
-    "ses_1df515f8bffeKmsaZMCAZTdEFb"
+    "ses_1de6b2270ffeyWDOLHNcpfFXWO",
+    "ses_1de6b1621ffdSB08WlK4nBKuec",
+    "ses_1de6b055affe3ZAj4i1ldr0x6Y",
+    "ses_1de6aa8feffeh33f1QfYw2k2nf"
   ],
   "session_origins": {
     "ses_1e3b2bb2effeB1GBM17463aBtn": "direct",
-    "ses_1df51a0ffffeeikjC7tFR925p5": "appended",
-    "ses_1df518bfeffewCj5H4z95tonkK": "appended",
-    "ses_1df51704fffeCprJgw8Mdbtf3I": "appended",
-    "ses_1df515f8bffeKmsaZMCAZTdEFb": "appended"
+    "ses_1de6b2270ffeyWDOLHNcpfFXWO": "appended",
+    "ses_1de6b1621ffdSB08WlK4nBKuec": "appended",
+    "ses_1de6b055affe3ZAj4i1ldr0x6Y": "appended",
+    "ses_1de6aa8feffeh33f1QfYw2k2nf": "appended"
   },
-  "plan_name": "codecapsule-project-scoped-state-linux-uid",
+  "plan_name": "capsule-cli-alias",
   "agent": "atlas",
   "task_sessions": {
     "todo:1": {
       "task_key": "todo:1",
       "task_label": "1",
-      "task_title": "Replace Global Volume Semantics with Project-Local State/Cache Paths",
-      "session_id": "ses_1df852c75ffeIHQNTobpJIz0eR",
+      "task_title": "Add `capsule` Binary Alias and CLI Help Name",
+      "session_id": "ses_1de73b748ffegHvNFAHtXrUEzw",
       "agent": "Sisyphus-Junior",
-      "category": "unspecified-high",
-      "updated_at": "2026-05-13T08:54:23.391Z"
+      "category": "quick",
+      "updated_at": "2026-05-13T13:36:13.821Z"
     },
     "todo:3": {
       "task_key": "todo:3",
       "task_label": "3",
-      "task_title": "Update Init Generation and Gitignore for Local State/Cache Directories",
-      "session_id": "ses_1df733caaffeKGrKA2CAgHw44Q",
+      "task_title": "Update Tests and Run Full Verification",
+      "session_id": "ses_1de6f0275ffeNKYPiEgKOG6fTH",
       "agent": "Sisyphus-Junior",
       "category": "unspecified-high",
-      "updated_at": "2026-05-13T09:04:41.503Z"
-    },
-    "todo:4": {
-      "task_key": "todo:4",
-      "task_label": "4",
-      "task_title": "Update Runner Build/Launch for Project-Scoped Mounts and Host UID/GID Build Args",
-      "session_id": "ses_1df6a424dffe90K5HSmLxnMrqb",
-      "agent": "Sisyphus-Junior",
-      "category": "unspecified-high",
-      "updated_at": "2026-05-13T09:17:41.403Z"
-    },
-    "todo:6": {
-      "task_key": "todo:6",
-      "task_label": "6",
-      "task_title": "End-to-End Docker and Cross-Platform QA",
-      "session_id": "ses_1df5d5ff4ffePgRi08fHZL6qSD",
-      "agent": "Sisyphus-Junior",
-      "category": "unspecified-high",
-      "updated_at": "2026-05-13T09:31:22.771Z"
+      "updated_at": "2026-05-13T13:43:47.770Z"
     },
     "final-wave:f1": {
       "task_key": "final-wave:f1",
       "task_label": "F1",
       "task_title": "Plan Compliance Audit — oracle",
-      "session_id": "ses_1df515f8bffeKmsaZMCAZTdEFb",
-      "agent": "Sisyphus-Junior",
-      "category": "",
-      "updated_at": "2026-05-13T09:52:09.312Z"
+      "session_id": "ses_1de6aa8feffeh33f1QfYw2k2nf",
+      "agent": "oracle",
+      "updated_at": "2026-05-13T13:44:55.937Z"
     }
   }
 }

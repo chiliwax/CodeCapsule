@@ -1,0 +1,12 @@
+Task 3 capsule CLI alias guardrail evidence
+
+Package name check:
+$ node -e package guardrail
+package.json.name=codecapsule
+Exit: 0
+
+Grep guardrails from this run:
+- Pattern \.codecapsule/ found 74 matches in 18 files across source/tests/docs.
+- Pattern codecapsule/opencode found 17 matches in 11 files across source/tests/docs.
+
+Conclusion: internal .codecapsule/ path references, Docker image namespace codecapsule/opencode, and package name codecapsule remain preserved.

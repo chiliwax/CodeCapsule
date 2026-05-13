@@ -1,0 +1,26 @@
+Task 3 capsule CLI alias verification evidence
+
+Changed file diagnostics:
+- lsp_diagnostics test/cli.test.ts: No diagnostics found
+
+Command outputs from this run:
+
+$ npm run typecheck
+> codecapsule@0.1.0 typecheck
+> tsc -p tsconfig.json --noEmit
+Exit: 0
+
+$ npm run build
+> codecapsule@0.1.0 build
+> tsc -p tsconfig.json
+Exit: 0
+
+$ npm test -- --run
+> codecapsule@0.1.0 test
+> vitest run --run
+
+Test Files  12 passed (12)
+Tests       65 passed (65)
+Exit: 0
+
+Note: Vitest emitted existing vi.unmock hoisting warnings in clean/doctor/launch tests; no test failures.
