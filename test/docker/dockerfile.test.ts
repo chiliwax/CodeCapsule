@@ -10,6 +10,7 @@ const profile: Profile = {
   opencodeVersion: '0.9.1',
   statePath: '.codecapsule/state/opencode',
   cachePath: '.codecapsule/cache/opencode',
+  configPath: '.codecapsule/config/opencode',
   network: 'bridge',
   imports: {
     settings: false,

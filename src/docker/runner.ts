@@ -100,6 +100,10 @@ export function buildDockerCommand(
     args.push('-v', `${join(cwd, profile.cachePath)}:/home/codecapsule/.cache/opencode`);
   }
 
+  if (profile.configPath) {
+    args.push('-v', `${join(cwd, profile.configPath)}:/home/codecapsule/.config/opencode`);
+  }
+
   for (const envVar of profile.security.envAllowlist) {
     args.push('-e', envVar);
   }

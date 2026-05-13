@@ -6,6 +6,7 @@
   "opencodeVersion": "latest",
   "statePath": ".codecapsule/state/opencode",
   "cachePath": ".codecapsule/cache/opencode",
+  "configPath": ".codecapsule/config/opencode",
   "network": "bridge",
   "imports": {
     "settings": false,

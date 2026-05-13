@@ -80,6 +80,7 @@ local.json
 imports/
 state/
 cache/
+config/
 tmp/
 logs/
 `);

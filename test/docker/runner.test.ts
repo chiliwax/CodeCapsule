@@ -16,6 +16,7 @@ function createProfile(overrides: Partial<Profile> = {}): Profile {
     opencodeVersion: 'latest',
     statePath: '.codecapsule/state/opencode',
     cachePath: '.codecapsule/cache/opencode',
+    configPath: '.codecapsule/config/opencode',
     network: 'bridge',
     imports: disabledImports,
     security: {
@@ -50,6 +51,7 @@ describe('buildDockerCommand', () => {
     expect(command).toContain('XDG_CACHE_HOME=/home/codecapsule/.cache');
     expect(command).toContain(`${process.cwd()}/.codecapsule/state/opencode:/home/codecapsule/.local/share/opencode`);
     expect(command).toContain(`${process.cwd()}/.codecapsule/cache/opencode:/home/codecapsule/.cache/opencode`);
+    expect(command).toContain(`${process.cwd()}/.codecapsule/config/opencode:/home/codecapsule/.config/opencode`);
     expect(command).toContain(imageTag);
     expect(command).not.toContain('codecapsule/opencode:latest');
     expect(command).toContain('opencode');

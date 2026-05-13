@@ -44,6 +44,7 @@ function createProfile(adapter: AdapterMetadata, imports: ImportSelections): Pro
     opencodeVersion: 'latest',
     statePath: `.codecapsule/state/${adapter.toolId}`,
     cachePath: `.codecapsule/cache/${adapter.toolId}`,
+    configPath: `.codecapsule/config/${adapter.toolId}`,
     network: 'bridge',
     imports,
     security: {
@@ -96,6 +97,7 @@ export function runInit(options: InitOptions, cwd = process.cwd()): void {
   mkdirSync(dirname(files[0].path), { recursive: true });
   mkdirSync(join(baseDir, 'state', profile.tool), { recursive: true });
   mkdirSync(join(baseDir, 'cache', profile.tool), { recursive: true });
+  mkdirSync(join(baseDir, 'config', profile.tool), { recursive: true });
   for (const file of files) {
     file.write();
   }

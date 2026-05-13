@@ -26,6 +26,7 @@ export interface Profile {
   opencodeVersion: string;
   statePath: string;
   cachePath: string;
+  configPath: string;
   network: string;
   imports: ImportSelections;
   security: SecurityPolicy;

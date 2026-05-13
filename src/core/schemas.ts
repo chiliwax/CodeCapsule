@@ -65,6 +65,7 @@ export const ProfileSchema = z.object({
   opencodeVersion: z.string().min(1).default('latest'),
   statePath: z.string().min(1).default('.codecapsule/state/opencode'),
   cachePath: z.string().min(1).default('.codecapsule/cache/opencode'),
+  configPath: z.string().min(1).default('.codecapsule/config/opencode'),
   network: z.string().min(1).default('bridge'),
   imports: ImportsSchema.default(defaultImports),
   security: SecurityPolicySchema.default(defaultSecurityPolicy)

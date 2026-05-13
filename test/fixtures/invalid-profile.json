@@ -4,6 +4,7 @@
   "imageName": "codecapsule/opencode:latest",
   "statePath": ".codecapsule/state/opencode",
   "cachePath": ".codecapsule/cache/opencode",
+  "configPath": ".codecapsule/config/opencode",
   "security": {
     "allowPrivileged": true,
     "allowDockerSocket": true,

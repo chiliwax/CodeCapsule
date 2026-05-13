@@ -143,6 +143,7 @@ describe('e2e workflow', () => {
     expect(result.code).toBe(0);
     expect(command).toContain(join(tempDir, '.codecapsule/state/opencode'));
     expect(command).toContain(join(tempDir, '.codecapsule/cache/opencode'));
+    expect(command).toContain(join(tempDir, '.codecapsule/config/opencode'));
     expect(command).toContain('--user codecapsule');
     expect(command).toContain('HOME=/home/codecapsule');
     expect(command).toContain(`--build-arg USER_ID=${userId}`);

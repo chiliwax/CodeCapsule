@@ -21,6 +21,7 @@ function createProfile(overrides: Partial<Profile> = {}): Profile {
     opencodeVersion: 'latest',
     statePath: '.codecapsule/state/opencode',
     cachePath: '.codecapsule/cache/opencode',
+    configPath: '.codecapsule/config/opencode',
     network: 'bridge',
     imports: disabledImports,
     security: {

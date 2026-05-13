@@ -16,6 +16,7 @@ describe('ProfileSchema', () => {
     expect(profile.containerWorkdir).toBe('/workspace');
     expect(profile.statePath).toBe('.codecapsule/state/opencode');
     expect(profile.cachePath).toBe('.codecapsule/cache/opencode');
+    expect(profile.configPath).toBe('.codecapsule/config/opencode');
     expect(profile.security.allowPrivileged).toBe(false);
   });
 
@@ -60,6 +61,7 @@ describe('ProfileSchema', () => {
 
     expect(profile.statePath).toBe('.codecapsule/state/opencode');
     expect(profile.cachePath).toBe('.codecapsule/cache/opencode');
+    expect(profile.configPath).toBe('.codecapsule/config/opencode');
     expect(profile.imports).toEqual({
       settings: false,
       auth: false,
