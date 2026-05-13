@@ -12,7 +12,7 @@ export function createProgram(): Command {
   const program = new Command();
 
   program
-    .name('codecapsule')
+    .name('capsule')
     .description('Safe isolated Docker launcher for OpenCode')
     .version('0.1.0');
 

@@ -4,6 +4,7 @@
   "private": true,
   "type": "module",
   "bin": {
+    "capsule": "dist/cli.js",
     "codecapsule": "dist/cli.js"
   },
   "engines": {
